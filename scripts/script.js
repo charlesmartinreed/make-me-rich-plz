@@ -44,13 +44,16 @@ function generateNumbers(lottoType) {
       );
   }
 
-  layoutNumbers(lottoNumbers);
+  layoutNumbers(lottoNumbers, ballColor);
 }
 
-function layoutNumbers(lottoNumbers) {
+function layoutNumbers(lottoNumbers, bonusBallColor) {
   for (const number of lottoNumbers) {
     numberEl.innerHTML += `<span class="number-result">${number}</span>`;
   }
+
+  let spans = Array.from(document.querySelectorAll(".number-result"));
+  spans[spans.length - 1].style.backgroundColor = `${bonusBallColor}`;
 }
 
 function clearNumbers() {

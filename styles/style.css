@@ -39,3 +39,9 @@ html {
   padding: 1rem;
   font-size: 1.5rem;
 }
+
+.number-result:last-of-type {
+  height: 5rem;
+  width: 5rem;
+  padding: 1.5rem;
+}
