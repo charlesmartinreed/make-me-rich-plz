@@ -4,12 +4,12 @@ let lottoTypeSelector = document.querySelector("#lotto-type-select");
 const LottoTypes = {
   powerball: {
     whiteBallsNumRange: { minVal: 1, maxVal: 69 },
-    coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "red" },
+    coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
     count: 6,
   },
   megamillions: {
     whiteBallsNumRange: { minVal: 1, maxVal: 70 },
-    coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "gold" },
+    coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
     count: 6,
   },
 };
@@ -52,8 +52,12 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
     numberEl.innerHTML += `<span class="number-result">${number}</span>`;
   }
 
+  colorizeBonusBall(bonusBallColor);
+}
+
+function colorizeBonusBall(color) {
   let spans = Array.from(document.querySelectorAll(".number-result"));
-  spans[spans.length - 1].style.backgroundColor = `${bonusBallColor}`;
+  spans[spans.length - 1].style.backgroundColor = `${color}`;
 }
 
 function clearNumbers() {
