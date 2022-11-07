@@ -21,6 +21,7 @@ html {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -37,7 +38,7 @@ html {
 
 .number-result {
   background-color: white;
-  color: black;
+  color: #222;
   border-radius: 50%;
   height: 4rem;
   width: 4rem;
@@ -52,4 +53,24 @@ html {
   width: 5rem;
   padding: 1.5rem;
   color: white;
+}
+
+#lotto-type-select {
+  font-size: 3rem;
+  background-color: transparent;
+  color: #222;
+  border: none;
+  outline: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 800;
+}
+
+option {
+  /* styling the background-color and color properties only works in Firefox, per MDN */
+  background: none;
+  border: none;
+  font-size: 1rem;
+  text-align: left;
 }
