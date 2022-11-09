@@ -3,19 +3,19 @@ let lottoTypeSelector = document.querySelector("#lotto-type-select");
 let lottoTypeOptionGroup = document.querySelector("#lotto-types");
 
 const LottoTypes = {
-  powerball: {
+  Powerball: {
     lottoName: "Powerball",
     whiteBallsNumRange: { minVal: 1, maxVal: 69 },
     coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
     count: 6,
   },
-  megamillions: {
+  MegaMillions: {
     lottoName: "Mega Millions",
     whiteBallsNumRange: { minVal: 1, maxVal: 70 },
     coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
     count: 6,
   },
-  superlottoplus: {
+  SuperLottoPlus: {
     lottoName: "Super Lotto Plus",
     whiteBallsNumRange: { minVal: 1, maxVal: 47 },
     coloredBallNumRange: { minVal: 1, maxVal: 27, ballColor: "#47b5ff" },
@@ -28,6 +28,7 @@ let currentLottoType = "powerball";
 function generateNumbers(lottoType) {
   clearNumbers();
 
+  console.log(lottoType);
   let {
     whiteBallsNumRange: { minVal: whiteMinVal, maxVal: whiteMaxVal },
     coloredBallNumRange: {
@@ -74,22 +75,63 @@ function clearNumbers() {
 }
 
 function addLottoOptions() {
-  for (const lotto of Object.values(LottoTypes)) {
+  let keys = Array.from(Object.keys(LottoTypes)).map((key) => {
+    return splitByCapitalLetters(key);
+  });
+
+  function splitByCapitalLetters(testStr) {
+    let result = [];
+
+    let indices = [...testStr]
+      .map((value, index) => {
+        if (value === value.toUpperCase()) {
+          return index;
+        }
+      })
+      .filter((value) => value !== undefined);
+
+    for (let i = 0; i < indices.length; i++) {
+      result = [...result, testStr.substring(indices[i], indices[i + 1])];
+    }
+
+    return result.join(" ");
+  }
+
+  for (const key of keys) {
     let optionElement = document.createElement("option");
     optionElement.innerHTML = `
-    <option value="${lotto.lottoName}" selected>${lotto.lottoName}</option>
+    <option value="" selected>${key}</option>
     `;
 
     lottoTypeOptionGroup.appendChild(optionElement);
   }
+
+  // for (const lottoKey of Object.keys(LottoTypes)) {
+
+  // }
+
+  // for (const lotto of Object.values(LottoTypes)) {
+  //   let optionElement = document.createElement("option");
+  //   optionElement.innerHTML = `
+  //   <option value="${lotto.lottoName}" selected>${lotto.lottoName}</option>
+  //   `;
+
+  //   lottoTypeOptionGroup.appendChild(optionElement);
+  // }
 }
 
 lottoTypeSelector.addEventListener("change", (e) => {
   currentLottoType = e.target.value;
-  generateNumbers(LottoTypes.currentLottoType);
+  console.log(
+    "current lotto type is",
+    currentLottoType,
+    LottoTypes[currentLottoType]
+  );
+  // generateNumbers(LottoTypes[currentLottoType]);
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  generateNumbers(LottoTypes.currentLottoType);
   addLottoOptions();
+
+  // generateNumbers(LottoTypes[currentLottoType]);
 });
