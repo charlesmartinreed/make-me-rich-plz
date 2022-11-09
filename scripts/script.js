@@ -2,33 +2,39 @@ let numberEl = document.querySelector("#numbers-container");
 let lottoTypeSelector = document.querySelector("#lotto-type-select");
 let lottoTypeOptionGroup = document.querySelector("#lotto-types");
 
-const LottoTypes = {
-  Powerball: {
+const LottoTypes = [
+  {
     lottoName: "Powerball",
     whiteBallsNumRange: { minVal: 1, maxVal: 69 },
     coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
     count: 6,
   },
-  MegaMillions: {
+  {
     lottoName: "Mega Millions",
     whiteBallsNumRange: { minVal: 1, maxVal: 70 },
     coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
     count: 6,
   },
-  SuperLottoPlus: {
+  {
     lottoName: "Super Lotto Plus",
     whiteBallsNumRange: { minVal: 1, maxVal: 47 },
     coloredBallNumRange: { minVal: 1, maxVal: 27, ballColor: "#47b5ff" },
     count: 6,
   },
-};
+];
 
-let currentLottoType = "powerball";
+let defaultLotto = "Super Lotto Plus";
+let currentlySelectedLotto;
+
+function setLotto(updatedLottoName) {
+  currentlySelectedLotto = LottoTypes.find(
+    ({ lottoName }) => lottoName === updatedLottoName
+  );
+}
 
 function generateNumbers(lottoType) {
   clearNumbers();
 
-  console.log(lottoType);
   let {
     whiteBallsNumRange: { minVal: whiteMinVal, maxVal: whiteMaxVal },
     coloredBallNumRange: {
@@ -75,63 +81,63 @@ function clearNumbers() {
 }
 
 function addLottoOptions() {
-  let keys = Array.from(Object.keys(LottoTypes)).map((key) => {
-    return splitByCapitalLetters(key);
-  });
+  for (const lotto of LottoTypes) {
+    let { lottoName } = lotto;
 
-  function splitByCapitalLetters(testStr) {
-    let result = [];
-
-    let indices = [...testStr]
-      .map((value, index) => {
-        if (value === value.toUpperCase()) {
-          return index;
-        }
-      })
-      .filter((value) => value !== undefined);
-
-    for (let i = 0; i < indices.length; i++) {
-      result = [...result, testStr.substring(indices[i], indices[i + 1])];
-    }
-
-    return result.join(" ");
-  }
-
-  for (const key of keys) {
     let optionElement = document.createElement("option");
     optionElement.innerHTML = `
-    <option value="" selected>${key}</option>
+    <option value="${lottoName}">${lottoName}</option>
     `;
+    
+    if (lottoName === defaultLotto)
+      optionElement.setAttribute("selected", true);
 
     lottoTypeOptionGroup.appendChild(optionElement);
   }
-
-  // for (const lottoKey of Object.keys(LottoTypes)) {
-
-  // }
-
-  // for (const lotto of Object.values(LottoTypes)) {
-  //   let optionElement = document.createElement("option");
-  //   optionElement.innerHTML = `
-  //   <option value="${lotto.lottoName}" selected>${lotto.lottoName}</option>
-  //   `;
-
-  //   lottoTypeOptionGroup.appendChild(optionElement);
-  // }
 }
 
+// not using, but still keeping it because it's was a fun piece of code to write :(
+// function addLottoOptions() {
+//   let keys = Array.from(Object.keys(LottoTypes)).map((key) => {
+//     return splitByCapitalLetters(key);
+//   });
+
+//   function splitByCapitalLetters(testStr) {
+//     let result = [];
+
+//     let indices = [...testStr]
+//       .map((value, index) => {
+//         if (value === value.toUpperCase()) {
+//           return index;
+//         }
+//       })
+//       .filter((value) => value !== undefined);
+
+//     for (let i = 0; i < indices.length; i++) {
+//       result = [...result, testStr.substring(indices[i], indices[i + 1])];
+//     }
+
+//     return result.join(" ");
+//   }
+
+//   for (const key of keys) {
+//     let optionElement = document.createElement("option");
+//     optionElement.innerHTML = `
+//     <option value="" selected>${key}</option>
+//     `;
+
+//     lottoTypeOptionGroup.appendChild(optionElement);
+//   }
+// }
+
 lottoTypeSelector.addEventListener("change", (e) => {
-  currentLottoType = e.target.value;
-  console.log(
-    "current lotto type is",
-    currentLottoType,
-    LottoTypes[currentLottoType]
-  );
-  // generateNumbers(LottoTypes[currentLottoType]);
+  updatedLotto = e.target.value;
+  setLotto(updatedLotto);
+  generateNumbers(currentlySelectedLotto);
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {
   addLottoOptions();
-
-  // generateNumbers(LottoTypes[currentLottoType]);
+  setLotto(defaultLotto);
+  generateNumbers(currentlySelectedLotto);
 });
