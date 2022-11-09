@@ -1,15 +1,24 @@
 let numberEl = document.querySelector("#numbers-container");
 let lottoTypeSelector = document.querySelector("#lotto-type-select");
+let lottoTypeOptionGroup = document.querySelector("#lotto-types");
 
 const LottoTypes = {
   powerball: {
+    lottoName: "Powerball",
     whiteBallsNumRange: { minVal: 1, maxVal: 69 },
     coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
     count: 6,
   },
   megamillions: {
+    lottoName: "Mega Millions",
     whiteBallsNumRange: { minVal: 1, maxVal: 70 },
     coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
+    count: 6,
+  },
+  superlottoplus: {
+    lottoName: "Super Lotto Plus",
+    whiteBallsNumRange: { minVal: 1, maxVal: 47 },
+    coloredBallNumRange: { minVal: 1, maxVal: 27, ballColor: "#47b5ff" },
     count: 6,
   },
 };
@@ -64,11 +73,23 @@ function clearNumbers() {
   numberEl.innerHTML = "";
 }
 
+function addLottoOptions() {
+  for (const lotto of Object.values(LottoTypes)) {
+    let optionElement = document.createElement("option");
+    optionElement.innerHTML = `
+    <option value="${lotto.lottoName}" selected>${lotto.lottoName}</option>
+    `;
+
+    lottoTypeOptionGroup.appendChild(optionElement);
+  }
+}
+
 lottoTypeSelector.addEventListener("change", (e) => {
   currentLottoType = e.target.value;
-  generateNumbers(LottoTypes[currentLottoType]);
+  generateNumbers(LottoTypes.currentLottoType);
 });
 
-window.addEventListener("DOMContentLoaded", (e) =>
-  generateNumbers(LottoTypes[currentLottoType])
-);
+window.addEventListener("DOMContentLoaded", (e) => {
+  generateNumbers(LottoTypes.currentLottoType);
+  addLottoOptions();
+});
