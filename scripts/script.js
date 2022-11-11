@@ -84,13 +84,11 @@ function addLottoOptions() {
   for (const lotto of LottoTypes) {
     let { lottoName } = lotto;
 
-    let optionElement = document.createElement("option");
+    let optionElement = document.createElement("div");
+    optionElement.className = "lotto-option";
     optionElement.innerHTML = `
-    <option value="${lottoName}">${lottoName}</option>
+    <header>${lottoName}</header>
     `;
-    
-    if (lottoName === defaultLotto)
-      optionElement.setAttribute("selected", true);
 
     lottoTypeOptionGroup.appendChild(optionElement);
   }

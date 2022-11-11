@@ -56,21 +56,32 @@ html {
 }
 
 #lotto-type-select {
-  font-size: 3rem;
   background-color: transparent;
+  /* background-color: red; */
   color: #222;
-  border: none;
-  outline: none;
+  position: relative;
+}
+
+header {
+  font-size: 3rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   font-weight: 800;
 }
 
-option {
-  /* styling the background-color and color properties only works in Firefox, per MDN */
+#lotto-type-select::after {
+  /* display: block; */
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  content: attr(data-caret);
+  font-size: 3rem;
+  color: white;
+}
+
+.lotto-option {
+  width: 100%;
+  padding: 1rem;
   background: none;
-  border: none;
-  font-size: 1rem;
-  text-align: left;
+  font-size: inherit;
 }
