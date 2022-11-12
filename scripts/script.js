@@ -30,6 +30,8 @@ function setLotto(updatedLottoName) {
   currentlySelectedLotto = LottoTypes.find(
     ({ lottoName }) => lottoName === updatedLottoName
   );
+
+  generateNumbers(currentlySelectedLotto);
 }
 
 function generateNumbers(lottoType) {
@@ -85,13 +87,27 @@ function addLottoOptions() {
     let { lottoName } = lotto;
 
     let optionElement = document.createElement("div");
-    optionElement.className = "lotto-option";
+    optionElement.className = `lotto-option`;
+    optionElement.id = `${lottoName}`;
     optionElement.innerHTML = `
     <header>${lottoName}</header>
     `;
 
+    addLottoListener(optionElement, lottoName);
     lottoTypeOptionGroup.appendChild(optionElement);
   }
+}
+
+function addLottoListener(element, lottoName) {
+  element.addEventListener("click", (e) => {
+    document.querySelectorAll(".lotto-option").forEach((option) => {
+      option.classList.remove("selected");
+    });
+
+    element.classList.add("selected");
+
+    setLotto(lottoName);
+  });
 }
 
 // not using, but still keeping it because it's was a fun piece of code to write :(
@@ -131,11 +147,9 @@ function addLottoOptions() {
 lottoTypeSelector.addEventListener("change", (e) => {
   updatedLotto = e.target.value;
   setLotto(updatedLotto);
-  generateNumbers(currentlySelectedLotto);
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  addLottoOptions();
   setLotto(defaultLotto);
-  generateNumbers(currentlySelectedLotto);
+  addLottoOptions();
 });

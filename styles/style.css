@@ -56,6 +56,7 @@ html {
 }
 
 #lotto-type-select {
+  cursor: pointer;
   background-color: transparent;
   /* background-color: red; */
   color: #222;
@@ -69,19 +70,20 @@ header {
   font-weight: 800;
 }
 
-#lotto-type-select::after {
-  /* display: block; */
-  position: absolute;
-  right: 5%;
-  top: 5%;
-  content: attr(data-caret);
-  font-size: 3rem;
-  color: white;
-}
-
 .lotto-option {
   width: 100%;
   padding: 1rem;
   background: none;
   font-size: inherit;
+  position: relative;
+}
+
+.lotto-option.selected::after {
+  /* display: block; */
+  position: absolute;
+  right: -15%;
+  top: 15%;
+  content: "✅";
+  font-size: 3rem;
+  color: white;
 }
