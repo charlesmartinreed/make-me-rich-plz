@@ -87,8 +87,11 @@ function addLottoOptions() {
     let { lottoName } = lotto;
 
     let optionElement = document.createElement("div");
-    optionElement.className = `lotto-option`;
-    optionElement.id = `${lottoName}`;
+    optionElement.className = `${
+      currentlySelectedLotto.lottoName === lottoName
+        ? "lotto-option selected"
+        : "lotto-option"
+    }`;
     optionElement.innerHTML = `
     <header>${lottoName}</header>
     `;
