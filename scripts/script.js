@@ -93,7 +93,7 @@ function addLottoOptions() {
         : "lotto-option"
     }`;
     optionElement.innerHTML = `
-    <header>${lottoName}</header>
+    <span>${lottoName}</span>
     `;
 
     addLottoListener(optionElement, lottoName);

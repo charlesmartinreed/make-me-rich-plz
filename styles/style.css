@@ -63,17 +63,27 @@ html {
   position: relative;
 }
 
-header {
-  font-size: 3rem;
-  letter-spacing: 1px;
+#lotto-types {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  max-width: 100%;
+}
+
+.lotto-option span {
+  font-size: 1rem;
+  /* letter-spacing: 0.75px; */
   text-transform: uppercase;
   font-weight: 800;
 }
 
 .lotto-option {
-  width: 100%;
+  /* width: 100%; */
   padding: 1rem;
-  background: none;
+  background: transparent;
   font-size: inherit;
   position: relative;
 }
@@ -81,9 +91,10 @@ header {
 .lotto-option.selected::after {
   /* display: block; */
   position: absolute;
-  right: -15%;
-  top: 15%;
+  right: -10%;
+  top: 50%;
+  transform: translate(-10%, -50%);
   content: "✅";
-  font-size: 3rem;
+  font-size: 1 rem;
   color: white;
 }
