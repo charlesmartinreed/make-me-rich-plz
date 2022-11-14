@@ -85,16 +85,29 @@ html {
   padding: 1rem;
   background: transparent;
   font-size: inherit;
-  position: relative;
+  /* position: relative; */
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lotto-option.selected {
+  /* display: block; */
+  box-shadow: 0px 16px 0px #429f4e, 0px 16px 0px #429f4e;
+  /* border: 2px solid #429f4e; */
+  border-radius: 2px;
+  transform: scale(1.05);
+  background-color: #6bcb77;
+  color: #ffd93d;
+  /* outline: auto; */
+  /* outline-color: black; */
 }
 
 .lotto-option.selected::after {
   /* display: block; */
-  position: absolute;
+  /* position: absolute;
   right: -10%;
   top: 50%;
   transform: translate(-10%, -50%);
   content: "✅";
   font-size: 1 rem;
-  color: white;
+  color: white; */
 }
