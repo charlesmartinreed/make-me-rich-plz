@@ -23,7 +23,7 @@ const LottoTypes = [
   },
 ];
 
-let defaultLotto = "Super Lotto Plus";
+let defaultLotto = "Powerball";
 let currentlySelectedLotto;
 
 function setLotto(updatedLottoName) {
@@ -31,6 +31,7 @@ function setLotto(updatedLottoName) {
     ({ lottoName }) => lottoName === updatedLottoName
   );
 
+  // additionally, add the color for the selected panel
   generateNumbers(currentlySelectedLotto);
 }
 
@@ -92,6 +93,7 @@ function addLottoOptions() {
         ? "lotto-option selected"
         : "lotto-option"
     }`;
+
     optionElement.innerHTML = `
     <span>${lottoName}</span>
     `;
@@ -107,11 +109,36 @@ function addLottoListener(element, lottoName) {
       option.classList.remove("selected");
     });
 
-    element.classList.add("selected");
-    // additionally, add the color for the selected panel
-
     setLotto(lottoName);
+    deselectLotto();
+    element.classList.add("selected");
+    highlightSelectedLotto();
   });
+}
+
+function deselectLotto() {
+  let elements = document.querySelectorAll(".lotto-option");
+
+  elements.forEach((element) => {
+    element.style.background = "transparent";
+    element.style.color = `initial`;
+    element.style.boxShadow = `none`;
+    element.style.border = `none`;
+  });
+}
+
+function highlightSelectedLotto() {
+  let element = document.querySelector(".lotto-option.selected");
+
+  let {
+    coloredBallNumRange: { ballColor },
+  } = currentlySelectedLotto;
+
+  let darkenedBallColor = darkenColor(ballColor, 20);
+  element.style.background = ballColor;
+  element.style.color = `#ffd93d`;
+  element.style.boxShadow = `0px 16px 0px ${darkenedBallColor}`;
+  element.style.border = `2px solid ${darkenedBallColor}`;
 }
 
 // not using, but still keeping it because it's was a fun piece of code to write :(
@@ -156,12 +183,7 @@ lottoTypeSelector.addEventListener("change", (e) => {
 window.addEventListener("DOMContentLoaded", (e) => {
   setLotto(defaultLotto);
   addLottoOptions();
-
-  let {
-    coloredBallNumRange: { ballColor },
-  } = currentlySelectedLotto;
-
-  darkenColor(ballColor, 20);
+  highlightSelectedLotto();
 });
 
 function darkenColor(hexCode, darkenPercentage) {
