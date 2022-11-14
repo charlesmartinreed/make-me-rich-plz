@@ -108,6 +108,7 @@ function addLottoListener(element, lottoName) {
     });
 
     element.classList.add("selected");
+    // additionally, add the color for the selected panel
 
     setLotto(lottoName);
   });
@@ -155,4 +156,30 @@ lottoTypeSelector.addEventListener("change", (e) => {
 window.addEventListener("DOMContentLoaded", (e) => {
   setLotto(defaultLotto);
   addLottoOptions();
+
+  let {
+    coloredBallNumRange: { ballColor },
+  } = currentlySelectedLotto;
+
+  darkenColor(ballColor, 20);
 });
+
+function darkenColor(hexCode, darkenPercentage) {
+  hexCode = hexCode.replace("#", "");
+  let splitHexValues = [];
+  let darkenFactor = darkenPercentage / 100;
+
+  for (let i = 0; i < hexCode.length - 1; i += 2) {
+    splitHexValues.push(hexCode.substring(i, i + 2));
+  }
+
+  // this is just quick, easy code so I'm not controlling for errors when value is below 0
+  splitHexValues = splitHexValues.map((value) => {
+    return Math.abs(
+      Number(parseInt(value, 16)) -
+        Math.round(Number(parseInt(value, 16)) * darkenFactor)
+    ).toString(16);
+  });
+
+  return `#${splitHexValues.join("")}`;
+}
