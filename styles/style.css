@@ -37,6 +37,7 @@ html {
 }
 
 .number-result {
+  cursor: default;
   background-color: white;
   color: #222;
   border-radius: 50%;

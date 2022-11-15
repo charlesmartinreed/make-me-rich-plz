@@ -136,9 +136,9 @@ function highlightSelectedLotto() {
 
   let darkenedBallColor = darkenColor(ballColor, 20);
   element.style.background = ballColor;
-  element.style.color = `#ffd93d`;
-  element.style.boxShadow = `0px 16px 0px ${darkenedBallColor}`;
-  element.style.border = `2px solid ${darkenedBallColor}`;
+  element.style.color = `white`;
+  element.style.boxShadow = `0px 16px 16px ${darkenedBallColor}`;
+  // element.style.border = `2px solid ${darkenedBallColor}`;
 }
 
 // not using, but still keeping it because it's was a fun piece of code to write :(
