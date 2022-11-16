@@ -76,7 +76,9 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
 
 function colorizeBonusBall(color) {
   let spans = Array.from(document.querySelectorAll(".number-result"));
-  spans[spans.length - 1].style.backgroundColor = `${color}`;
+  spans[
+    spans.length - 1
+  ].style.background = `radial-gradient(circle at 25px 25px, ${color}, #000)`;
 }
 
 function clearNumbers() {
