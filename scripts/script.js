@@ -68,7 +68,10 @@ function generateNumbers(lottoType) {
 
 function layoutNumbers(lottoNumbers, bonusBallColor) {
   for (const number of lottoNumbers) {
-    numberEl.innerHTML += `<span class="number-result">${number}</span>`;
+    numberEl.innerHTML += `<div class="number-result">
+    ${number}
+    <span class="number-shadow"></span>
+    </div>`;
   }
 
   colorizeBonusBall(bonusBallColor);
@@ -76,6 +79,9 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
 
 function colorizeBonusBall(color) {
   let spans = Array.from(document.querySelectorAll(".number-result"));
+  let bonusBall = spans[spans.length - 1];
+  bonusBall.classList.add("bonus");
+
   spans[
     spans.length - 1
   ].style.background = `radial-gradient(circle at 25px 25px, ${color}, #000)`;

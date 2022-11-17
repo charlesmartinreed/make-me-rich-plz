@@ -34,6 +34,10 @@ html {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+
+  /* used alongside the shadowing effect to give the illusion of depth */
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
 }
 
 .number-result {
@@ -45,20 +49,38 @@ html {
   border-radius: 50%;
   height: 4rem;
   width: 4rem;
-  font-weight: 900;
+  font-weight: 500;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  position: relative;
 }
 
-.number-result:hover {
-}
-
-.number-result:last-of-type {
+.number-result.bonus {
   height: 5rem;
   width: 5rem;
   padding: 1.5rem;
   color: white;
+}
+
+.number-result::before,
+.number-result-bonus::before {
+  position: absolute;
+  content: "";
+
+  width: 100%;
+  height: 100%;
+  transform: translate(-18px, -15px);
+
+  background: radial-gradient(
+    circle at 10% 10%,
+    #8f8d8dbb,
+    rgba(110, 104, 104, 0) 65%
+  );
+  filter: blur(22px);
+  z-index: 2;
+
+  border-radius: 50%;
 }
 
 #lotto-type-select {
@@ -83,7 +105,7 @@ html {
   font-size: 1rem;
   /* letter-spacing: 0.75px; */
   text-transform: uppercase;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .lotto-option {
@@ -103,7 +125,7 @@ html {
   /* display: block; */
   /* box-shadow: 0px 16px 0px #429f4e; */
   /* border: 2px solid #429f4e; */
-  border-radius: 2px;
+  border-radius: 3px;
   transform: scale(1.05);
   /* background-color: #6bcb77; */
   /* color: #ffd93d; */
