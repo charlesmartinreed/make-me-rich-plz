@@ -55,14 +55,33 @@ function generateNumbers(lottoType) {
 
   function createNumberArr(minNum, maxNum, arrLen) {
     // using Math.ceil as a quick, dirty way of preventing -1 in the event that both max and min randomize to 1
-    return Array(arrLen)
-      .fill(0, 0)
-      .map(
-        (emptyVal) =>
-          (emptyVal = Math.ceil(Math.random() * (maxNum - minNum) - minNum))
-      );
-  }
+    let lottoNumbers = [];
 
+    // not as clean as using Array().fill().map
+    // but I needed to be able to check that the numbers hadn't already been used
+    // and moving the numbers out of scope just to keep track
+    // seemed unnececssary
+    // note that dupes between white/bonus balls are legal
+    while (lottoNumbers.length < arrLen) {
+      let proposedNumber = Math.ceil(
+        Math.random() * (maxNum - minNum) - minNum
+      );
+      if (lottoNumbers.includes(proposedNumber)) {
+        proposedNumber = Math.ceil(Math.random() * (maxNum - minNum) - minNum);
+      } else {
+        lottoNumbers = [...lottoNumbers, proposedNumber];
+      }
+    }
+
+    return lottoNumbers;
+
+    // return Array(arrLen)
+    //   .fill(0, 0)
+    //   .map(
+    //     (emptyVal) =>
+    //       (emptyVal = Math.ceil(Math.random() * (maxNum - minNum) - minNum))
+    //   );
+  }
   layoutNumbers(lottoNumbers, ballColor);
 }
 
@@ -148,40 +167,6 @@ function highlightSelectedLotto() {
   element.style.boxShadow = `0px 16px 16px ${darkenedBallColor}`;
   // element.style.border = `2px solid ${darkenedBallColor}`;
 }
-
-// not using, but still keeping it because it's was a fun piece of code to write :(
-// function addLottoOptions() {
-//   let keys = Array.from(Object.keys(LottoTypes)).map((key) => {
-//     return splitByCapitalLetters(key);
-//   });
-
-//   function splitByCapitalLetters(testStr) {
-//     let result = [];
-
-//     let indices = [...testStr]
-//       .map((value, index) => {
-//         if (value === value.toUpperCase()) {
-//           return index;
-//         }
-//       })
-//       .filter((value) => value !== undefined);
-
-//     for (let i = 0; i < indices.length; i++) {
-//       result = [...result, testStr.substring(indices[i], indices[i + 1])];
-//     }
-
-//     return result.join(" ");
-//   }
-
-//   for (const key of keys) {
-//     let optionElement = document.createElement("option");
-//     optionElement.innerHTML = `
-//     <option value="" selected>${key}</option>
-//     `;
-
-//     lottoTypeOptionGroup.appendChild(optionElement);
-//   }
-// }
 
 lottoTypeSelector.addEventListener("change", (e) => {
   updatedLotto = e.target.value;
