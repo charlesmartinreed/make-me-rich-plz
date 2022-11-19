@@ -74,18 +74,20 @@ function generateNumbers(lottoType) {
     }
 
     return lottoNumbers;
-
-    // return Array(arrLen)
-    //   .fill(0, 0)
-    //   .map(
-    //     (emptyVal) =>
-    //       (emptyVal = Math.ceil(Math.random() * (maxNum - minNum) - minNum))
-    //   );
   }
   layoutNumbers(lottoNumbers, ballColor);
 }
 
 function layoutNumbers(lottoNumbers, bonusBallColor) {
+  // let dropTiming = {
+  //   easing: "cubic-bezier(0.6, -0.28, 0.735, 0.045)",
+  //   duration: 500,
+  //   iterations: 1,
+  //   delay: 0,
+  // };
+
+  // let dropAnimation = [{ transform: "translateY(40px)" }];
+
   for (const number of lottoNumbers) {
     numberEl.innerHTML += `<div class="number-result">
     ${number}
@@ -94,6 +96,26 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
   }
 
   colorizeBonusBall(bonusBallColor);
+  animateLottoBalls();
+}
+
+function animateLottoBalls() {
+  let spinTiming = {
+    duration: 500,
+    iterations: 1,
+    delay: 0,
+  };
+
+  let spinAnimation = [
+    { transform: "translateX(40px) rotate(0deg)" },
+    { transform: "translateX(0) rotate(-360deg)" },
+  ];
+
+  document.querySelectorAll(".number-result").forEach((number, index) => {
+    index === 0 ? (spinTiming.delay = 0) : (spinTiming.delay += 100);
+
+    number.animate(spinAnimation, spinTiming);
+  });
 }
 
 function colorizeBonusBall(color) {
