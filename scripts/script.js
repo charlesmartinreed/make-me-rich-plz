@@ -101,14 +101,15 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
 
 function animateLottoBalls() {
   let spinTiming = {
-    duration: 500,
+    easing: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+    duration: 1000,
     iterations: 1,
     delay: 0,
   };
 
   let spinAnimation = [
-    { transform: "translateX(40px) rotate(0deg)" },
-    { transform: "translateX(0) rotate(-360deg)" },
+    { transform: "translateY(-240px) rotate(0deg)" },
+    { transform: "translate(0) rotate(-360deg)" },
   ];
 
   document.querySelectorAll(".number-result").forEach((number, index) => {
@@ -186,8 +187,7 @@ function highlightSelectedLotto() {
   let darkenedBallColor = darkenColor(ballColor, 20);
   element.style.background = ballColor;
   element.style.color = `white`;
-  element.style.boxShadow = `0px 16px 16px ${darkenedBallColor}`;
-  // element.style.border = `2px solid ${darkenedBallColor}`;
+  element.style.boxShadow = `0px 10px 16px ${darkenedBallColor}, 4px -2px 8px ${darkenedBallColor}, -4px -2px 8px ${darkenedBallColor}`;
 }
 
 lottoTypeSelector.addEventListener("change", (e) => {

@@ -12,8 +12,8 @@ html {
   background: linear-gradient(
     208deg,
     rgba(2, 0, 36, 1) 0%,
-    rgba(53, 53, 144, 1) 35%,
-    rgba(46, 194, 224, 1) 80%
+    rgb(27, 27, 52) 35%,
+    rgb(17, 41, 46) 80%
   );
 }
 
@@ -45,6 +45,7 @@ html {
   cursor: default;
 
   /* creating a psuedo-3D effect */
+  /* https://cssanimation.rocks/spheres/ */
   background: radial-gradient(circle at 70px 70px, #000, #fff);
   color: #222;
   border-radius: 50%;
@@ -55,9 +56,6 @@ html {
   padding: 1rem;
   font-size: 1.25rem;
   position: relative;
-
-  /* animation: 2s linear roll; */
-  /* transition: cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 
 .number-result.bonus {
@@ -65,16 +63,6 @@ html {
   width: 5rem;
   padding: 1.5rem;
   color: white;
-}
-
-@keyframes roll {
-  from {
-    transform: translateX(40px) rotate(0deg);
-  }
-
-  to {
-    transform: translateX(0px) rotate(-360deg);
-  }
 }
 
 .number-result::before,
@@ -88,7 +76,7 @@ html {
 
   background: radial-gradient(
     circle at 10% 10%,
-    #8f8d8dbb,
+    #625f5fbb,
     rgba(110, 104, 104, 0) 65%
   );
   filter: blur(22px);
@@ -100,7 +88,6 @@ html {
 #lotto-type-select {
   cursor: pointer;
   background-color: transparent;
-  /* background-color: red; */
   color: #222;
   position: relative;
 }
@@ -117,7 +104,6 @@ html {
 
 .lotto-option span {
   font-size: 1rem;
-  /* letter-spacing: 0.75px; */
   text-transform: uppercase;
   font-weight: 800;
 }
@@ -136,13 +122,7 @@ html {
 }
 
 .lotto-option.selected {
-  /* display: block; */
-  /* box-shadow: 0px 16px 0px #429f4e; */
-  /* border: 2px solid #429f4e; */
   border-radius: 3px;
   transform: scale(1.05);
-  /* background-color: #6bcb77; */
-  /* color: #ffd93d; */
-  /* outline: auto; */
-  /* outline-color: black; */
+  transition: all 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
