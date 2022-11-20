@@ -112,8 +112,7 @@ function animateLottoBall(ballElement, ballPosition, ballLabel) {
 
   let spinAnimation = [
     { opacity: 0, transform: "translateY(-240px) rotate(0deg)" },
-    { transform: "translate(0) rotate(-360deg)" },
-    { opacity: 1 },
+    { opacity: 1, transform: "translate(0) rotate(-360deg)" },
   ];
 
   ballElement.animate(spinAnimation, {
@@ -121,6 +120,7 @@ function animateLottoBall(ballElement, ballPosition, ballLabel) {
     delay: ballPosition * 100,
   });
 
+  
   ballElement.textContent = `${ballLabel}`;
 }
 
