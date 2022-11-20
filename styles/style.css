@@ -21,6 +21,7 @@ html {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -28,17 +29,30 @@ html {
 
 #numbers-container {
   width: 50%;
-  height: 100px;
+  min-height: 100px;
   display: flex;
   flex-wrap: wrap;
+  margin: 1rem;
+
   /* background-color: red; */
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  text-align: center;
+  row-gap: 1rem;
 
   /* used alongside the shadowing effect to give the illusion of depth */
   perspective: 1200px;
   perspective-origin: 50% 50%;
+}
+
+#options-container {
+  width: 70%;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: red; */
 }
 
 .number-result {
@@ -125,4 +139,19 @@ html {
   border-radius: 3px;
   transform: scale(1.05);
   transition: all 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+/* KOFI BUTTON STYLING */
+.btn-container {
+  position: fixed;
+  top: 2.5%;
+  right: 2.5%;
+}
+
+@media screen and (max-width: 750px) {
+  #options-container {
+    /* display: none; */
+    /* flex-direction: column; */
+    /* background-color: red; */
+  }
 }
