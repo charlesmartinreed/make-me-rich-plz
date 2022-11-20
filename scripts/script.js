@@ -36,8 +36,6 @@ function setLotto(updatedLottoName) {
 }
 
 function generateNumbers(lottoType) {
-  clearNumbers();
-
   let {
     whiteBallsNumRange: { minVal: whiteMinVal, maxVal: whiteMaxVal },
     coloredBallNumRange: {
@@ -79,6 +77,7 @@ function generateNumbers(lottoType) {
 }
 
 function layoutNumbers(lottoNumbers, bonusBallColor) {
+  clearNumbers();
   // let dropTiming = {
   //   easing: "cubic-bezier(0.6, -0.28, 0.735, 0.045)",
   //   duration: 500,
@@ -88,35 +87,41 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
 
   // let dropAnimation = [{ transform: "translateY(40px)" }];
 
-  for (const number of lottoNumbers) {
-    numberEl.innerHTML += `<div class="number-result">
-    ${number}
-    <span class="number-shadow"></span>
-    </div>`;
+  for (let ballIndex = 0; ballIndex < lottoNumbers.length; ballIndex++) {
+    let ballElement = document.createElement("div");
+    ballElement.classList = "number-result";
+
+    let ballShadow = document.createElement("span");
+    ballShadow.classList = "numberShadow";
+    ballElement.insertAdjacentElement("afterend", ballShadow);
+
+    numberEl.appendChild(ballElement);
+
+    animateLottoBall(ballElement, ballIndex, lottoNumbers[ballIndex]);
   }
 
   colorizeBonusBall(bonusBallColor);
-  animateLottoBalls();
 }
 
-function animateLottoBalls() {
+function animateLottoBall(ballElement, ballPosition, ballLabel) {
   let spinTiming = {
     easing: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     duration: 1000,
     iterations: 1,
-    delay: 0,
   };
 
   let spinAnimation = [
-    { transform: "translateY(-240px) rotate(0deg)" },
+    { opacity: 0, transform: "translateY(-240px) rotate(0deg)" },
     { transform: "translate(0) rotate(-360deg)" },
+    { opacity: 1 },
   ];
 
-  document.querySelectorAll(".number-result").forEach((number, index) => {
-    index === 0 ? (spinTiming.delay = 0) : (spinTiming.delay += 100);
-
-    number.animate(spinAnimation, spinTiming);
+  ballElement.animate(spinAnimation, {
+    ...spinTiming,
+    delay: ballPosition * 100,
   });
+
+  ballElement.textContent = `${ballLabel}`;
 }
 
 function colorizeBonusBall(color) {
