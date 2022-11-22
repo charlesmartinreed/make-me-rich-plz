@@ -120,7 +120,6 @@ function animateLottoBall(ballElement, ballPosition, ballLabel) {
     delay: ballPosition * 100,
   });
 
-  
   ballElement.textContent = `${ballLabel}`;
 }
 
@@ -176,7 +175,7 @@ function deselectLotto() {
 
   elements.forEach((element) => {
     element.style.background = "transparent";
-    element.style.color = `initial`;
+    element.style.color = `rgba(206, 206, 206, 0.5)`;
     element.style.boxShadow = `none`;
     element.style.border = `none`;
   });
