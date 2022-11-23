@@ -131,9 +131,9 @@ html {
 }
 
 .lotto-option span {
-  font-size: 1.15rem;
   text-transform: capitalize;
   font-weight: 400;
+  font-size: 14px;
 }
 
 .lotto-option {
@@ -145,7 +145,7 @@ html {
   box-shadow: none;
   border: none;
 
-  font-size: inherit;
+  font-size: initial;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -153,6 +153,10 @@ html {
   border-radius: 3px;
   transform: scale(1.05);
   transition: all 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.lotto-option.selected span {
+  font-size: 17px;
 }
 
 /* KOFI BUTTON STYLING */
@@ -174,7 +178,7 @@ html {
   #numbers-container {
     width: 55%;
     grid-template-columns: repeat(3, 1fr);
-    /* column-gap: 0.2rem;   */
+    row-gap: 1rem;
     margin: 2rem;
   }
 

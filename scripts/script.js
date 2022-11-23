@@ -65,7 +65,7 @@ const LottoTypes = [
     lottoName: "Lotto America",
     rulesAndOddsLink: "https://powerball.com/games/lotto-america",
     whiteBallsNumRange: { minVal: 1, maxVal: 52, mainBallColor: "#db2727" },
-    coloredBallNumRange: { minVal: 1, maxVal: 10, bonusBallColor: "#2A3990" },
+    coloredBallNumRange: { minVal: 1, maxVal: 10, bonusBallColor: "#002868" },
     count: 6,
   },
   {
@@ -77,7 +77,7 @@ const LottoTypes = [
       maxVal: 60,
       mainBallColor: defaultBallColor,
     },
-    coloredBallNumRange: { minVal: 1, maxVal: 4, bonusBallColor: "#02245a" },
+    coloredBallNumRange: { minVal: 1, maxVal: 4, bonusBallColor: "#1746A2" },
     count: 6,
   },
 ];
@@ -261,10 +261,10 @@ function highlightSelectedLotto() {
     coloredBallNumRange: { bonusBallColor },
   } = currentlySelectedLotto;
 
-  let darkenedBallColor = darkenColor(bonusBallColor, 20);
+  let darkenedBallColor = darkenColor(bonusBallColor, 40);
   element.style.background = darkenedBallColor;
   element.style.color = `white`;
-  element.style.boxShadow = `0px 10px 16px ${darkenedBallColor}, 4px -2px 8px ${darkenedBallColor}, -4px -2px 8px ${darkenedBallColor}`;
+  // element.style.boxShadow = `0px 4px 4px ${darkenedBallColor}, 4px -2px 8px ${darkenedBallColor}, -2px -1px 8px ${darkenedBallColor}`;
 }
 
 lottoTypeSelector.addEventListener("change", (e) => {
@@ -292,9 +292,11 @@ function darkenColor(hexCode, darkenPercentage) {
   splitHexValues = splitHexValues
     .map((hexValue) => Math.abs(Number.parseInt(hexValue, 16)))
     .map((rgbValue) => Math.abs(rgbValue - Math.round(rgbValue * darkenFactor)))
-    .map((darkenedValue) => darkenedValue.toString(16));
+    .map((darkenedValue) => {
+      let darkenedHex = darkenedValue.toString(16);
 
-  // Math.abs(rgbValue).toString(16)
+      return darkenedHex.length === 1 ? `0${darkenedHex}` : darkenedHex;
+    });
 
   console.log("combined converted hex is", splitHexValues);
 
