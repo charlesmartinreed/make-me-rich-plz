@@ -5,20 +5,57 @@ let lottoTypeOptionGroup = document.querySelector("#lotto-types");
 const LottoTypes = [
   {
     lottoName: "Powerball",
+    description: "",
     whiteBallsNumRange: { minVal: 1, maxVal: 69 },
     coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
     count: 6,
   },
   {
     lottoName: "Mega Millions",
+    description: "",
     whiteBallsNumRange: { minVal: 1, maxVal: 70 },
     coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
     count: 6,
   },
   {
+    // California
     lottoName: "Super Lotto Plus",
+    description: "",
     whiteBallsNumRange: { minVal: 1, maxVal: 47 },
     coloredBallNumRange: { minVal: 1, maxVal: 27, ballColor: "#47b5ff" },
+    count: 6,
+  },
+  {
+    // Maine, New Hampshire, Vermont tri-state
+    lottoName: "Megabucks Plus",
+    description: "",
+    whiteBallsNumRange: { minVal: 1, maxVal: 41 },
+    coloredBallNumRange: { minVal: 1, maxVal: 6, ballColor: "#9C254D" },
+    count: 6,
+  },
+  {
+    // 26 states total
+    lottoName: "Lucky 4 Life",
+    description: "",
+    whiteBallsNumRange: { minVal: 1, maxVal: 48 },
+    coloredBallNumRange: { minVal: 1, maxVal: 18, ballColor: "#009a49" },
+    count: 6,
+  },
+  {
+    // 13 states, mainly midwest
+    // interestingly enough, this one uses red as the main ball color
+    lottoName: "Lotto America",
+    description: "",
+    whiteBallsNumRange: { minVal: 1, maxVal: 52 },
+    coloredBallNumRange: { minVal: 1, maxVal: 10, ballColor: "#2A3990" },
+    count: 6,
+  },
+  {
+    // East Coast mainly, but also includes Florida, Virginia, etc.
+    lottoName: "Cash4Life",
+    description: "",
+    whiteBallsNumRange: { minVal: 1, maxVal: 60 },
+    coloredBallNumRange: { minVal: 1, maxVal: 4, ballColor: "#02245a" },
     count: 6,
   },
 ];
@@ -92,7 +129,7 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
     ballElement.classList = "number-result";
 
     let ballShadow = document.createElement("span");
-    ballShadow.classList = "numberShadow";
+    ballShadow.classList = "number-result-shadow";
     ballElement.insertAdjacentElement("afterend", ballShadow);
 
     numberEl.appendChild(ballElement);
@@ -211,16 +248,25 @@ function darkenColor(hexCode, darkenPercentage) {
   let darkenFactor = darkenPercentage / 100;
 
   for (let i = 0; i < hexCode.length - 1; i += 2) {
+    console.log("hex is", hexCode.substring(i, i + 2));
     splitHexValues.push(hexCode.substring(i, i + 2));
   }
 
   // this is just quick, easy code so I'm not controlling for errors when value is below 0
   splitHexValues = splitHexValues.map((value) => {
-    return Math.abs(
-      Number(parseInt(value, 16)) -
-        Math.round(Number(parseInt(value, 16)) * darkenFactor)
-    ).toString(16);
+    if (value === "00") {
+      return value;
+    } else {
+      let calc = Math.abs(
+        Number(parseInt(value, 16)) -
+          Math.round(Number(parseInt(value, 16)) * darkenFactor)
+      ).toString(16);
+      console.log("calc is", calc);
+      return calc;
+    }
   });
+
+  console.log(splitHexValues.join(""));
 
   return `#${splitHexValues.join("")}`;
 }
