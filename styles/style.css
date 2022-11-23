@@ -58,7 +58,7 @@ html {
 
   /* creating a psuedo-3D effect */
   /* https://cssanimation.rocks/spheres/ */
-  background: radial-gradient(circle at 70px 70px, #000, #fff);
+  /* background: radial-gradient(circle at 70px 70px, #000, #fff); */
   color: #222;
   border-radius: 50%;
   height: 4rem;
@@ -88,10 +88,10 @@ html {
 
   background: radial-gradient(
     circle at 10% 10%,
-    #625f5fbb,
+    #808080bb,
     rgba(110, 104, 104, 0) 65%
   );
-  filter: blur(12px);
+  filter: blur(35px);
   z-index: 2;
 
   border-radius: 50%;
@@ -152,7 +152,7 @@ html {
 .lotto-option.selected {
   border-radius: 3px;
   transform: scale(1.05);
-  transition: all 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 /* KOFI BUTTON STYLING */

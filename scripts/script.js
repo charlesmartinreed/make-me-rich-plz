@@ -1,66 +1,88 @@
 let numberEl = document.querySelector("#numbers-container");
 let lottoTypeSelector = document.querySelector("#lotto-type-select");
 let lottoTypeOptionGroup = document.querySelector("#lotto-types");
+let defaultBallColor = "#FFFFFF";
 
 const LottoTypes = [
   {
     lottoName: "Powerball",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 69 },
-    coloredBallNumRange: { minVal: 1, maxVal: 26, ballColor: "#ff2c2c" },
+    rulesAndOddsLink: "https://powerball.com/games/home",
+    whiteBallsNumRange: {
+      minVal: 1,
+      maxVal: 69,
+      mainBallColor: defaultBallColor,
+    },
+    coloredBallNumRange: { minVal: 1, maxVal: 26, bonusBallColor: "#ff2c2c" },
     count: 6,
   },
   {
     lottoName: "Mega Millions",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 70 },
-    coloredBallNumRange: { minVal: 1, maxVal: 25, ballColor: "#dfaf37" },
+    rulesAndOddsLink: "https://www.megamillions.com/How-to-Play.aspx",
+    whiteBallsNumRange: {
+      minVal: 1,
+      maxVal: 70,
+      mainBallColor: defaultBallColor,
+    },
+    coloredBallNumRange: { minVal: 1, maxVal: 25, bonusBallColor: "#dfaf37" },
     count: 6,
   },
   {
     // California
     lottoName: "Super Lotto Plus",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 47 },
-    coloredBallNumRange: { minVal: 1, maxVal: 27, ballColor: "#47b5ff" },
+    rulesAndOddsLink: "https://www.calottery.com/draw-games/superlotto-plus",
+    whiteBallsNumRange: {
+      minVal: 1,
+      maxVal: 47,
+      mainBallColor: defaultBallColor,
+    },
+    coloredBallNumRange: { minVal: 1, maxVal: 27, bonusBallColor: "#47b5ff" },
     count: 6,
   },
   {
     // Maine, New Hampshire, Vermont tri-state
     lottoName: "Megabucks Plus",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 41 },
-    coloredBallNumRange: { minVal: 1, maxVal: 6, ballColor: "#9C254D" },
+    rulesAndOddsLink: "https://www.mainelottery.com/games/megabucksplus.shtml",
+    whiteBallsNumRange: {
+      minVal: 1,
+      maxVal: 41,
+      mainBallColor: defaultBallColor,
+    },
+    coloredBallNumRange: { minVal: 1, maxVal: 6, bonusBallColor: "#9C254D" },
     count: 6,
   },
   {
     // 26 states total
+    // green regular balls, golden bonus ball
     lottoName: "Lucky 4 Life",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 48 },
-    coloredBallNumRange: { minVal: 1, maxVal: 18, ballColor: "#009a49" },
+    rulesAndOddsLink: "https://www.luckyforlife.us/odds-and-prizes/",
+    whiteBallsNumRange: { minVal: 1, maxVal: 48, mainBallColor: "#469c56" },
+    coloredBallNumRange: { minVal: 1, maxVal: 18, bonusBallColor: "#FAC213" },
     count: 6,
   },
   {
     // 13 states, mainly midwest
     // interestingly enough, this one uses red as the main ball color
     lottoName: "Lotto America",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 52 },
-    coloredBallNumRange: { minVal: 1, maxVal: 10, ballColor: "#2A3990" },
+    rulesAndOddsLink: "https://powerball.com/games/lotto-america",
+    whiteBallsNumRange: { minVal: 1, maxVal: 52, mainBallColor: "#db2727" },
+    coloredBallNumRange: { minVal: 1, maxVal: 10, bonusBallColor: "#2A3990" },
     count: 6,
   },
   {
     // East Coast mainly, but also includes Florida, Virginia, etc.
     lottoName: "Cash4Life",
-    description: "",
-    whiteBallsNumRange: { minVal: 1, maxVal: 60 },
-    coloredBallNumRange: { minVal: 1, maxVal: 4, ballColor: "#02245a" },
+    rulesAndOddsLink: "https://www.flalottery.com/cash4Life",
+    whiteBallsNumRange: {
+      minVal: 1,
+      maxVal: 60,
+      mainBallColor: defaultBallColor,
+    },
+    coloredBallNumRange: { minVal: 1, maxVal: 4, bonusBallColor: "#02245a" },
     count: 6,
   },
 ];
 
-let defaultLotto = "Powerball";
+let defaultLotto = "Lucky 4 Life";
 let currentlySelectedLotto;
 
 function setLotto(updatedLottoName) {
@@ -74,11 +96,15 @@ function setLotto(updatedLottoName) {
 
 function generateNumbers(lottoType) {
   let {
-    whiteBallsNumRange: { minVal: whiteMinVal, maxVal: whiteMaxVal },
+    whiteBallsNumRange: {
+      minVal: whiteMinVal,
+      maxVal: whiteMaxVal,
+      mainBallColor,
+    },
     coloredBallNumRange: {
       minVal: colorMinVal,
       maxVal: colorMaxVal,
-      ballColor,
+      bonusBallColor,
     },
     count,
   } = lottoType;
@@ -110,10 +136,10 @@ function generateNumbers(lottoType) {
 
     return lottoNumbers;
   }
-  layoutNumbers(lottoNumbers, ballColor);
+  layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor);
 }
 
-function layoutNumbers(lottoNumbers, bonusBallColor) {
+function layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor) {
   clearNumbers();
   // let dropTiming = {
   //   easing: "cubic-bezier(0.6, -0.28, 0.735, 0.045)",
@@ -127,6 +153,16 @@ function layoutNumbers(lottoNumbers, bonusBallColor) {
   for (let ballIndex = 0; ballIndex < lottoNumbers.length; ballIndex++) {
     let ballElement = document.createElement("div");
     ballElement.classList = "number-result";
+    ballElement.style.background = `radial-gradient(circle at 25px 25px, ${mainBallColor}, #000)`;
+
+    // quick way of changing the font color
+    // based upon the ball color
+    // without getting too into the weeds
+
+    if (ballIndex < lottoNumbers.length - 1) {
+      ballElement.style.color =
+        mainBallColor === defaultBallColor ? "#222" : "#FFF";
+    }
 
     let ballShadow = document.createElement("span");
     ballShadow.classList = "number-result-shadow";
@@ -222,11 +258,11 @@ function highlightSelectedLotto() {
   let element = document.querySelector(".lotto-option.selected");
 
   let {
-    coloredBallNumRange: { ballColor },
+    coloredBallNumRange: { bonusBallColor },
   } = currentlySelectedLotto;
 
-  let darkenedBallColor = darkenColor(ballColor, 20);
-  element.style.background = ballColor;
+  let darkenedBallColor = darkenColor(bonusBallColor, 20);
+  element.style.background = darkenedBallColor;
   element.style.color = `white`;
   element.style.boxShadow = `0px 10px 16px ${darkenedBallColor}, 4px -2px 8px ${darkenedBallColor}, -4px -2px 8px ${darkenedBallColor}`;
 }
@@ -248,25 +284,19 @@ function darkenColor(hexCode, darkenPercentage) {
   let darkenFactor = darkenPercentage / 100;
 
   for (let i = 0; i < hexCode.length - 1; i += 2) {
-    console.log("hex is", hexCode.substring(i, i + 2));
+    console.log("unconverted hex is", hexCode.substring(i, i + 2));
     splitHexValues.push(hexCode.substring(i, i + 2));
   }
 
   // this is just quick, easy code so I'm not controlling for errors when value is below 0
-  splitHexValues = splitHexValues.map((value) => {
-    if (value === "00") {
-      return value;
-    } else {
-      let calc = Math.abs(
-        Number(parseInt(value, 16)) -
-          Math.round(Number(parseInt(value, 16)) * darkenFactor)
-      ).toString(16);
-      console.log("calc is", calc);
-      return calc;
-    }
-  });
+  splitHexValues = splitHexValues
+    .map((hexValue) => Math.abs(Number.parseInt(hexValue, 16)))
+    .map((rgbValue) => Math.abs(rgbValue - Math.round(rgbValue * darkenFactor)))
+    .map((darkenedValue) => darkenedValue.toString(16));
 
-  console.log(splitHexValues.join(""));
+  // Math.abs(rgbValue).toString(16)
+
+  console.log("combined converted hex is", splitHexValues);
 
   return `#${splitHexValues.join("")}`;
 }
