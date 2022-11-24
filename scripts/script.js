@@ -1,6 +1,7 @@
 let numberEl = document.querySelector("#numbers-container");
 let lottoTypeSelector = document.querySelector("#lotto-type-select");
 let lottoTypeOptionGroup = document.querySelector("#lotto-types");
+let lottoDescriptionCaption = document.querySelector("#lotto-description");
 let defaultBallColor = "#FFFFFF";
 
 const LottoTypes = [
@@ -94,8 +95,18 @@ function setLotto(updatedLottoName) {
   generateNumbers(currentlySelectedLotto);
 }
 
+function updateCaptionText(lottoLink, lottoName, accentColor) {
+  let captionHtml = `
+    <a href="${lottoLink}" target="_blank" class="lotto-description-link">Find more about your odds of winning and the rules of <span style="color: ${accentColor}">${lottoName}</span> here 👋</a>
+  `;
+
+  lottoDescriptionCaption.innerHTML = captionHtml;
+}
+
 function generateNumbers(lottoType) {
   let {
+    lottoName,
+    rulesAndOddsLink: lottoLink,
     whiteBallsNumRange: {
       minVal: whiteMinVal,
       maxVal: whiteMaxVal,
@@ -136,7 +147,9 @@ function generateNumbers(lottoType) {
 
     return lottoNumbers;
   }
+
   layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor);
+  updateCaptionText(lottoLink, lottoName, bonusBallColor);
 }
 
 function layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor) {
@@ -264,19 +277,7 @@ function highlightSelectedLotto() {
   let darkenedBallColor = darkenColor(bonusBallColor, 40);
   element.style.background = darkenedBallColor;
   element.style.color = `white`;
-  // element.style.boxShadow = `0px 4px 4px ${darkenedBallColor}, 4px -2px 8px ${darkenedBallColor}, -2px -1px 8px ${darkenedBallColor}`;
 }
-
-lottoTypeSelector.addEventListener("change", (e) => {
-  updatedLotto = e.target.value;
-  setLotto(updatedLotto);
-});
-
-window.addEventListener("DOMContentLoaded", (e) => {
-  setLotto(defaultLotto);
-  addLottoOptions();
-  highlightSelectedLotto();
-});
 
 function darkenColor(hexCode, darkenPercentage) {
   hexCode = hexCode.replace("#", "");
@@ -302,3 +303,15 @@ function darkenColor(hexCode, darkenPercentage) {
 
   return `#${splitHexValues.join("")}`;
 }
+
+// EVENT LISTENERS
+lottoTypeSelector.addEventListener("change", (e) => {
+  updatedLotto = e.target.value;
+  setLotto(updatedLotto);
+});
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  setLotto(defaultLotto);
+  addLottoOptions();
+  highlightSelectedLotto();
+});

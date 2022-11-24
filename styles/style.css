@@ -132,8 +132,9 @@ html {
 
 .lotto-option span {
   text-transform: capitalize;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
+  letter-spacing: 0.25px;
 }
 
 .lotto-option {
@@ -157,6 +158,27 @@ html {
 
 .lotto-option.selected span {
   font-size: 17px;
+}
+
+figure {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lotto-description-link {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.lotto-description-link span {
+  font-weight: 900;
 }
 
 /* KOFI BUTTON STYLING */
@@ -185,5 +207,13 @@ html {
   #options-container #lotto-types {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  figure {
+    text-align: center;
+  }
+
+  .lotto-description-link {
+    font-size: 1rem;
   }
 }
