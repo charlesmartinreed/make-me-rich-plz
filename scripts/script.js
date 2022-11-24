@@ -124,11 +124,11 @@ function generateNumbers(lottoType) {
     // seemed unnececssary
     // note that dupes between white/bonus balls are legal
     while (lottoNumbers.length < arrLen) {
-      let proposedNumber = Math.ceil(
-        Math.random() * (maxNum - minNum) - minNum
+      let proposedNumber = Math.floor(
+        Math.random() * (maxNum - minNum) + minNum
       );
       if (lottoNumbers.includes(proposedNumber)) {
-        proposedNumber = Math.ceil(Math.random() * (maxNum - minNum) - minNum);
+        proposedNumber = Math.floor(Math.random() * (maxNum - minNum) + minNum);
       } else {
         lottoNumbers = [...lottoNumbers, proposedNumber];
       }
