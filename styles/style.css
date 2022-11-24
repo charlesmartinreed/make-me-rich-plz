@@ -28,7 +28,7 @@ html {
 }
 
 #numbers-container {
-  width: 40%;
+  width: 50%;
   min-height: 100px;
   margin: 1rem;
 
@@ -38,6 +38,7 @@ html {
   flex-direction: row;
   place-items: center;
   row-gap: 0.5rem;
+  gap: 1rem;
 
   /* used alongside the shadowing effect to give the illusion of depth */
   perspective: 1200px;
@@ -198,8 +199,9 @@ figure {
 
 @media screen and (max-width: 750px) {
   #numbers-container {
-    width: 55%;
+    width: 50%;
     grid-template-columns: repeat(3, 1fr);
+    column-gap: 0.5rem;
     row-gap: 1rem;
     margin: 2rem;
   }

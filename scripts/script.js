@@ -83,7 +83,7 @@ const LottoTypes = [
   },
 ];
 
-let defaultLotto = "Lucky 4 Life";
+let defaultLotto = "Powerball";
 let currentlySelectedLotto;
 
 function setLotto(updatedLottoName) {
