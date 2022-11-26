@@ -97,7 +97,7 @@ function setLotto(updatedLottoName) {
 
 function updateCaptionText(lottoLink, lottoName, accentColor) {
   let captionHtml = `
-    <a href="${lottoLink}" target="_blank" class="lotto-description-link">Find more about your odds of winning and the rules of <span style="color: ${accentColor}">${lottoName}</span> here 👋</a>
+    <a href="${lottoLink}" target="_blank" class="lotto-description-link">Find more the rules of <span style="color: ${accentColor}">${lottoName}</span> and your odds of winning</a>
   `;
 
   lottoDescriptionCaption.innerHTML = captionHtml;
@@ -154,14 +154,6 @@ function generateNumbers(lottoType) {
 
 function layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor) {
   clearNumbers();
-  // let dropTiming = {
-  //   easing: "cubic-bezier(0.6, -0.28, 0.735, 0.045)",
-  //   duration: 500,
-  //   iterations: 1,
-  //   delay: 0,
-  // };
-
-  // let dropAnimation = [{ transform: "translateY(40px)" }];
 
   for (let ballIndex = 0; ballIndex < lottoNumbers.length; ballIndex++) {
     let ballElement = document.createElement("div");
@@ -187,6 +179,10 @@ function layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor) {
   }
 
   colorizeBonusBall(bonusBallColor);
+}
+
+function clearNumbers() {
+  numberEl.innerHTML = "";
 }
 
 function animateLottoBall(ballElement, ballPosition, ballLabel) {
@@ -219,10 +215,6 @@ function colorizeBonusBall(color) {
   ].style.background = `radial-gradient(circle at 25px 25px, ${color}, #000)`;
 }
 
-function clearNumbers() {
-  numberEl.innerHTML = "";
-}
-
 function addLottoOptions() {
   for (const lotto of LottoTypes) {
     let { lottoName } = lotto;
@@ -243,27 +235,12 @@ function addLottoOptions() {
   }
 }
 
-function addLottoListener(element, lottoName) {
-  element.addEventListener("click", (e) => {
-    document.querySelectorAll(".lotto-option").forEach((option) => {
-      option.classList.remove("selected");
-    });
-
-    setLotto(lottoName);
-    deselectLotto();
-    element.classList.add("selected");
-    highlightSelectedLotto();
-  });
-}
-
 function deselectLotto() {
   let elements = document.querySelectorAll(".lotto-option");
 
   elements.forEach((element) => {
     element.style.background = "transparent";
     element.style.color = `rgba(206, 206, 206, 0.5)`;
-    element.style.boxShadow = `none`;
-    element.style.border = `none`;
   });
 }
 
@@ -298,13 +275,23 @@ function darkenColor(hexCode, darkenPercentage) {
 
       return darkenedHex.length === 1 ? `0${darkenedHex}` : darkenedHex;
     });
-
-  console.log("combined converted hex is", splitHexValues);
-
   return `#${splitHexValues.join("")}`;
 }
 
 // EVENT LISTENERS
+function addLottoListener(element, lottoName) {
+  element.addEventListener("click", (e) => {
+    document.querySelectorAll(".lotto-option").forEach((option) => {
+      option.classList.remove("selected");
+    });
+
+    setLotto(lottoName);
+    deselectLotto();
+    element.classList.add("selected");
+    highlightSelectedLotto();
+  });
+}
+
 lottoTypeSelector.addEventListener("change", (e) => {
   updatedLotto = e.target.value;
   setLotto(updatedLotto);
