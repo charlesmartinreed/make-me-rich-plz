@@ -7,7 +7,7 @@ let defaultBallColor = "#FFFFFF";
 const LottoTypes = [
   {
     lottoName: "Powerball",
-    rulesAndOddsLink: "https://powerball.com/games/home",
+    rulesAndOddsLink: "https://powerball.com/#powerball-prizes-and-odds",
     whiteBallsNumRange: {
       minVal: 1,
       maxVal: 69,
