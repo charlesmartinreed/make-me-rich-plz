@@ -7,6 +7,8 @@ let defaultBallColor = "#FFFFFF";
 const LottoTypes = [
   {
     lottoName: "Powerball",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-powerball",
     rulesAndOddsLink: "https://powerball.com/#powerball-prizes-and-odds",
     whiteBallsNumRange: {
       minVal: 1,
@@ -18,6 +20,8 @@ const LottoTypes = [
   },
   {
     lottoName: "Mega Millions",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-mega-millions",
     rulesAndOddsLink: "https://www.megamillions.com/How-to-Play.aspx",
     whiteBallsNumRange: {
       minVal: 1,
@@ -30,7 +34,10 @@ const LottoTypes = [
   {
     // California
     lottoName: "Super Lotto Plus",
-    rulesAndOddsLink: "https://www.calottery.com/draw-games/superlotto-plus",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-superlotto-plus",
+    rulesAndOddsLink:
+      "https://www.calottery.com/draw-games/superlotto-plus#section-content-4-3",
     whiteBallsNumRange: {
       minVal: 1,
       maxVal: 47,
@@ -42,7 +49,9 @@ const LottoTypes = [
   {
     // Maine, New Hampshire, Vermont tri-state
     lottoName: "Megabucks Plus",
-    rulesAndOddsLink: "https://www.mainelottery.com/games/megabucksplus.shtml",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-megabucks-plus-2",
+    rulesAndOddsLink: "https://vtlottery.com/games/megabucks",
     whiteBallsNumRange: {
       minVal: 1,
       maxVal: 41,
@@ -55,6 +64,8 @@ const LottoTypes = [
     // 26 states total
     // green regular balls, golden bonus ball
     lottoName: "Lucky 4 Life",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-lucky-for-life-me",
     rulesAndOddsLink: "https://www.luckyforlife.us/odds-and-prizes/",
     whiteBallsNumRange: { minVal: 1, maxVal: 48, mainBallColor: "#469c56" },
     coloredBallNumRange: { minVal: 1, maxVal: 18, bonusBallColor: "#FAC213" },
@@ -64,6 +75,8 @@ const LottoTypes = [
     // 13 states, mainly midwest
     // interestingly enough, this one uses red as the main ball color
     lottoName: "Lotto America",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-lotto-america-me",
     rulesAndOddsLink: "https://powerball.com/games/lotto-america",
     whiteBallsNumRange: { minVal: 1, maxVal: 52, mainBallColor: "#db2727" },
     coloredBallNumRange: { minVal: 1, maxVal: 10, bonusBallColor: "#002868" },
@@ -72,6 +85,8 @@ const LottoTypes = [
   {
     // East Coast mainly, but also includes Florida, Virginia, etc.
     lottoName: "Cash4Life",
+    lottoJackpotURL:
+      "https://lotteryguru.com/united-states-lottery-results/us-cash4life-fl",
     rulesAndOddsLink: "https://www.flalottery.com/cash4Life",
     whiteBallsNumRange: {
       minVal: 1,
@@ -86,21 +101,72 @@ const LottoTypes = [
 let defaultLotto = "Powerball";
 let currentlySelectedLotto;
 
-function setLotto(updatedLottoName) {
+async function setLotto(updatedLottoName) {
   currentlySelectedLotto = LottoTypes.find(
     ({ lottoName }) => lottoName === updatedLottoName
   );
 
+  let {
+    lottoLink,
+    lottoName,
+    coloredBallNumRange: { bonusBallColor },
+  } = currentlySelectedLotto;
+
   // additionally, add the color for the selected panel
   generateNumbers(currentlySelectedLotto);
+  await updateCaptionText(lottoLink, lottoName, bonusBallColor);
 }
 
-function updateCaptionText(lottoLink, lottoName, accentColor) {
+async function updateCaptionText(lottoLink, lottoName, accentColor) {
   let captionHtml = `
     <a href="${lottoLink}" target="_blank" class="lotto-description-link">Find more the rules of <span style="color: ${accentColor}">${lottoName}</span> and your odds of winning</a>
   `;
 
   lottoDescriptionCaption.innerHTML = captionHtml;
+
+  // call the function to layout the powerball numbers here
+  // let currentJackPot = await getCurrentJackpotAmount();
+  // console.log("current jackpot is", currentJackPot);
+}
+
+async function getCurrentJackpotAmount() {
+  let { lottoJackpotURL } = currentlySelectedLotto;
+
+  // what sucks is that each one of these will require drastically
+  // different code for the fetch logic
+  // might try to abstract this away from this file soon
+  try {
+    let pageRes = await fetch(lottoJackpotURL);
+    let pageHTML = await payload.text();
+
+    let parser = new DOMParser();
+    let parsedDoc = parser.parseFromString(pageHTML, "text/html");
+
+    let selectorStr = `div.lg-card-row.lg-jackpot-info div.lg-sum`;
+    let jackpotElement = parsedDoc.querySelector(selectorStr).textContent;
+
+    return jackpotElement;
+
+    // div.lg-card-row lg-jackpot-info -> div.lg-sum
+    // document.querySelector('div.lg-card-row.lg-jackpot-info div.lg-sum').textContent
+    // switch (currentlySelectedLotto.lottoName) {
+    //   case "Super Lotto Plus":
+    //     jackpotElement = parsedDoc
+    //       .querySelector(jackpotValueDOMSelector)
+    //       .textContent.split("\n")[1]
+    //       .replace("!*", "");
+    //     break;
+    //   default:
+    //     jackpotElement = parsedDoc.querySelector(
+    //       jackpotValueDOMSelector
+    //     ).textContent;
+    //     break;
+    // }
+
+    // return jackpotElement;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function generateNumbers(lottoType) {
@@ -149,7 +215,6 @@ function generateNumbers(lottoType) {
   }
 
   layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor);
-  updateCaptionText(lottoLink, lottoName, bonusBallColor);
 }
 
 function layoutNumbers(lottoNumbers, mainBallColor, bonusBallColor) {
@@ -262,7 +327,6 @@ function darkenColor(hexCode, darkenPercentage) {
   let darkenFactor = darkenPercentage / 100;
 
   for (let i = 0; i < hexCode.length - 1; i += 2) {
-    console.log("unconverted hex is", hexCode.substring(i, i + 2));
     splitHexValues.push(hexCode.substring(i, i + 2));
   }
 
