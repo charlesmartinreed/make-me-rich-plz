@@ -43,13 +43,14 @@ async function getCurrentJackpotAmount() {
   // might try to abstract this away from this file soon
   try {
     let pageRes = await fetch(lottoJackpotURL);
-    let pageHTML = await payload.text();
+    let pageHTML = await pageRes.text();
 
     let parser = new DOMParser();
     let parsedDoc = parser.parseFromString(pageHTML, "text/html");
 
     let selectorStr = `div.lg-card-row.lg-jackpot-info div.lg-sum`;
     let jackpotElement = parsedDoc.querySelector(selectorStr).textContent;
+    console.log(jackpotElement);
 
     return jackpotElement;
 
